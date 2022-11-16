@@ -1,4 +1,5 @@
 const { Sequelize } = require("sequelize");
+const { initModels } = require("./init-models");
 
 const options = {
   username: "postgres",
@@ -14,4 +15,7 @@ connection
   .then(() => console.log("Conectado ao banco de dados"))
   .catch((erro) => console.log("Erro ao conectar ao banco de dados", erro));
 
-module.exports = connection;
+let db = initModels(connection);
+db = { ...db, connection };
+
+module.exports = db;
