@@ -3,6 +3,7 @@ const app = express();
 const cliente = require("./routes/cliente");
 const pedido = require("./routes/pedido");
 const cep = require("./routes/cep");
+const connection = require("./models");
 
 app.use(express.json());
 
