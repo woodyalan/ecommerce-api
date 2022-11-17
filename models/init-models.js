@@ -14,40 +14,40 @@ function initModels(sequelize) {
   var produto_pedido = _produto_pedido(sequelize, DataTypes);
   var tipo_produto = _tipo_produto(sequelize, DataTypes);
 
-  // pedido.belongsToMany(produto, {
-  //   as: "produtoId_produtos",
-  //   through: produto_pedido,
-  //   foreignKey: "pedidoId",
-  //   otherKey: "produtoId",
-  // });
-  // produto.belongsToMany(pedido, {
-  //   as: "pedidoId_pedidos",
-  //   through: produto_pedido,
-  //   foreignKey: "produtoId",
-  //   otherKey: "pedidoId",
-  // });
-  // pedido.belongsTo(cliente, { as: "cliente", foreignKey: "clienteId" });
-  // cliente.hasMany(pedido, { as: "pedidos", foreignKey: "clienteId" });
-  // endereco_pedido.belongsTo(pedido, { as: "pedido", foreignKey: "pedidoId" });
-  // pedido.hasOne(endereco_pedido, {
-  //   as: "endereco_pedido",
-  //   foreignKey: "pedidoId",
-  // });
-  // produto_pedido.belongsTo(pedido, { as: "pedido", foreignKey: "pedidoId" });
-  // pedido.hasMany(produto_pedido, {
-  //   as: "produto_pedidos",
-  //   foreignKey: "pedidoId",
-  // });
-  // produto_pedido.belongsTo(produto, { as: "produto", foreignKey: "produtoId" });
-  // produto.hasMany(produto_pedido, {
-  //   as: "produto_pedidos",
-  //   foreignKey: "produtoId",
-  // });
-  // produto.belongsTo(tipo_produto, {
-  //   as: "tipoProduto_tipo_produto",
-  //   foreignKey: "tipoProduto",
-  // });
-  // tipo_produto.hasMany(produto, { as: "produtos", foreignKey: "tipoProduto" });
+  pedido.belongsToMany(produto, {
+    as: "produtoId_produtos",
+    through: produto_pedido,
+    foreignKey: "pedidoId",
+    otherKey: "produtoId",
+  });
+  produto.belongsToMany(pedido, {
+    as: "pedidoId_pedidos",
+    through: produto_pedido,
+    foreignKey: "produtoId",
+    otherKey: "pedidoId",
+  });
+  pedido.belongsTo(cliente, { as: "cliente", foreignKey: "clienteId" });
+  cliente.hasMany(pedido, { as: "pedidos", foreignKey: "clienteId" });
+  endereco_pedido.belongsTo(pedido, { as: "pedido", foreignKey: "pedidoId" });
+  pedido.hasOne(endereco_pedido, {
+    as: "endereco_pedido",
+    foreignKey: "pedidoId",
+  });
+  produto_pedido.belongsTo(pedido, { as: "pedido", foreignKey: "pedidoId" });
+  pedido.hasMany(produto_pedido, {
+    as: "produto_pedidos",
+    foreignKey: "pedidoId",
+  });
+  produto_pedido.belongsTo(produto, { as: "produto", foreignKey: "produtoId" });
+  produto.hasMany(produto_pedido, {
+    as: "produto_pedidos",
+    foreignKey: "produtoId",
+  });
+  produto.belongsTo(tipo_produto, {
+    as: "tipoProduto_tipo_produto",
+    foreignKey: "tipoProduto",
+  });
+  tipo_produto.hasMany(produto, { as: "produtos", foreignKey: "tipoProduto" });
 
   return {
     cliente,
