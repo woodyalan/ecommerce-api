@@ -43,4 +43,18 @@ const remover = async (id) => {
   });
 };
 
-module.exports = { criar, atualizar, remover };
+const buscar = async (id = null) => {
+  const atributos = ["id", "nome", "email", "cpf"];
+
+  if (id) {
+    return await cliente.findByPk(id, {
+      attributes: atributos,
+    });
+  }
+
+  return await cliente.findAll({
+    attributes: atributos,
+  });
+};
+
+module.exports = { criar, atualizar, remover, buscar };

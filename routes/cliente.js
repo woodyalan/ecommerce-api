@@ -1,9 +1,11 @@
 const { Router } = require("express");
-const { criar, atualizar, remover } = require("../controllers/cliente");
+const { criar, atualizar, remover, buscar } = require("../controllers/cliente");
 const router = Router();
 
-router.get("/:id?", (req, res) => {
-  res.send("Listagem de clientes");
+router.get("/:id?", async (req, res) => {
+  const result = await buscar(req.params.id);
+
+  res.send(result);
 });
 
 router.post("/", async (req, res) => {
@@ -13,7 +15,8 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const result = await atualizar(req.params.id, req.body);
+  await atualizar(req.params.id, req.body);
+  const result = await buscar(req.params.id);
 
   res.send(result);
 });
