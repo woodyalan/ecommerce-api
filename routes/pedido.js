@@ -30,11 +30,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", (req, res) => {
-  console.log(req.body);
-  res.send("Atualizar pedido");
-});
-
 router.delete("/:id", async (req, res) => {
   try {
     await remover(req.params.id);
