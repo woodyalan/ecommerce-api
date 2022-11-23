@@ -57,6 +57,49 @@ const criar = async (
   }
 };
 
+const atualizar = async (
+  id,
+  { valorTotal = null, observacoes = null },
+  produtos = [],
+  enderecoEntrega = {}
+) => {
+  const transacao = await connection.transaction();
+
+  try {
+    await pedido.update(
+      { valorTotal, observacoes },
+      { where: { id }, transaction: transacao }
+    );
+
+    await produto_pedido.destroy({
+      where: { pedidoId: id },
+      transaction: transacao,
+    });
+
+    for (const item of produtos) {
+      await produto_pedido.create(
+        {
+          pedidoId: id,
+          produtoId: item.id,
+          quantidade: item.quantidade,
+          valorTotal: item.valorTotal,
+        },
+        { transaction: transacao }
+      );
+    }
+
+    await endereco_pedido.update(enderecoEntrega, {
+      where: { pedidoId: id },
+      transaction: transacao,
+    });
+
+    await transacao.commit();
+  } catch (error) {
+    await transacao.rollback();
+    throw error;
+  }
+};
+
 const buscarPorId = async (id) => {
   try {
     const options = {
@@ -118,4 +161,4 @@ const remover = async (id) => {
   }
 };
 
-module.exports = { criar, buscarPorId, remover };
+module.exports = { criar, buscarPorId, remover, atualizar };

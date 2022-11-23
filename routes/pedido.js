@@ -1,5 +1,10 @@
 const { Router } = require("express");
-const { criar, buscarPorId, remover } = require("../controllers/pedido");
+const {
+  criar,
+  buscarPorId,
+  remover,
+  atualizar,
+} = require("../controllers/pedido");
 const router = Router();
 
 router.get("/:id?", async (req, res) => {
@@ -27,6 +32,20 @@ router.post("/", async (req, res) => {
     res.status(500).send({
       mensagem: error.message,
     });
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { valorTotal, observacoes, produtos, enderecoEntrega } = req.body;
+
+    await atualizar(id, { valorTotal, observacoes }, produtos, enderecoEntrega);
+    const result = await buscarPorId(id);
+
+    res.send(result);
+  } catch (error) {
+    res.status(500).send({ mensagem: error.message });
   }
 });
 
