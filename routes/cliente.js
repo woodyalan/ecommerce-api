@@ -1,8 +1,9 @@
 const { Router } = require("express");
 const { criar, atualizar, remover, buscar } = require("../controllers/cliente");
 const router = Router();
+const verifyToken = require("../middlewares/auth");
 
-router.get("/:id?", async (req, res) => {
+router.get("/:id?", verifyToken, async (req, res) => {
   try {
     const result = await buscar(req.params.id);
 
@@ -22,7 +23,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyToken, async (req, res) => {
   try {
     await atualizar(req.params.id, req.body);
     const result = await buscar(req.params.id);
@@ -33,7 +34,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyToken, async (req, res) => {
   try {
     await remover(req.params.id);
     res.send("Remover cliente");
