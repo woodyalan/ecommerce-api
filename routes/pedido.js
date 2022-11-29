@@ -9,7 +9,9 @@ const router = Router();
 
 router.get("/:id?", async (req, res) => {
   try {
-    const result = await buscarPorId(req.params.id);
+    const { clienteId } = req;
+
+    const result = await buscarPorId(req.params.id, clienteId);
 
     res.send(result);
   } catch (error) {
@@ -25,7 +27,7 @@ router.post("/", async (req, res) => {
       req.body.enderecoEntrega
     );
 
-    const result = await buscarPorId(pedidoCriado.id);
+    const result = await buscarPorId(pedidoCriado.id, req.clienteId);
 
     res.send(result);
   } catch (error) {
@@ -41,7 +43,7 @@ router.put("/:id", async (req, res) => {
     const { valorTotal, observacoes, produtos, enderecoEntrega } = req.body;
 
     await atualizar(id, { valorTotal, observacoes }, produtos, enderecoEntrega);
-    const result = await buscarPorId(id);
+    const result = await buscarPorId(id, req.clienteId);
 
     res.send(result);
   } catch (error) {

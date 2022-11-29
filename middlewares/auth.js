@@ -13,6 +13,8 @@ const verifyToken = (req, res, next) => {
       return res.status(401).send({ mensagem: "Token inválido" });
     }
 
+    req.clienteId = decoded.id;
+
     next();
   });
 };
