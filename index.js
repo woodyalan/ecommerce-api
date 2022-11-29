@@ -1,4 +1,5 @@
 const express = require("express");
+const morgan = require("morgan");
 const app = express();
 const cliente = require("./routes/cliente");
 const pedido = require("./routes/pedido");
@@ -9,6 +10,7 @@ const login = require("./routes/login");
 const verifyToken = require("./middlewares/auth");
 
 app.use(express.json());
+app.use(morgan("dev"));
 
 app.use("/login", login);
 app.use("/cep", cep);
