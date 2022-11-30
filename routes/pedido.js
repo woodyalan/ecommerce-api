@@ -6,6 +6,9 @@ const {
   atualizar,
 } = require("../controllers/pedido");
 const router = Router();
+const post = require("../schemas/pedido/post");
+const validation = require("../middlewares/validation");
+const { checkSchema } = require("express-validator");
 
 router.get("/:id?", async (req, res) => {
   try {
@@ -19,7 +22,7 @@ router.get("/:id?", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", checkSchema(post), validation, async (req, res) => {
   try {
     const pedidoCriado = await criar(
       req.body,
